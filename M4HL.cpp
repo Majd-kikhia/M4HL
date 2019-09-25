@@ -369,7 +369,7 @@ void data_project::add_sport()
 	{
 		cout << "Write down how many times you had the push-up exercise" << endl;
 		cin >> pushup;
-		user[confirm].all_bicycling.push_back(pushup);
+		user[confirm].all_push_up.push_back(pushup);
 		add_sport();
 	}
 
@@ -701,6 +701,13 @@ void data_project::rating()
 	{
 		cout << "Please, rate the application from five" << endl;
 		cin >> rate;
+		while (rate < 1 || rate >5)
+		{
+			cout << "sorry choice in range from 1 to 5" << endl;
+			cout << "your choice is: ";
+			cin >> rate;
+		}
+
 		cout << "thank you" << endl;
 		cout << endl;
 		check = true;
