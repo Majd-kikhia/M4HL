@@ -11,6 +11,24 @@ using namespace std;
 
 int choice = 0;
 int login_choice = 0;
+long long confirm = -1;
+
+struct account
+{
+	vector <int> all_walking;
+	vector <int> all_running;
+	vector <int> all_bicycling;
+	vector <int> all_push_up;
+
+	account()
+	{
+		all_walking.clear();
+		all_running.clear();
+		all_bicycling.clear();
+		all_push_up.clear();
+	}
+};
+
 
 struct data_project
 {
@@ -21,13 +39,10 @@ struct data_project
 	vector <int> all_high;
 	vector <int> all_wieght;
 	vector <int> all_aim_wieght;
-	vector <int> all_walking;
-	vector <int> all_running;
-	vector <int> all_bicycling;
-	vector <int> all_push_up;
-	long long confirm ;
+	account user[1000005];
 	int aim_wieght;
-
+	bool check = false;
+	int rate = -1;
 	data_project()
 	{
   		 login_name = "";
@@ -37,11 +52,7 @@ struct data_project
 		 all_high.clear();
 		 all_wieght.clear();
 		 all_aim_wieght.clear();
-		 all_walking.clear();
-		 all_running.clear();
-		 all_bicycling.clear();
-		 all_push_up.clear();
-		 confirm = -1;
+		 
 		 aim_wieght = 0;
 	}
 
@@ -180,6 +191,8 @@ void  data_project::sign_up()
 
 }
 
+
+
 bool data_project::is_correct_name(string s)
 {
 	for (int i = 0 ; i < s.size() ; i++)
@@ -259,25 +272,31 @@ void data_project::login_page()
 	cout << "please make a choice : " << endl << endl;
 	cout << "1) Add sport.                              your weight is : " << all_wieght[confirm] << endl;
 	cout << "2) My sport.                               your aim weight is : " << all_aim_wieght[confirm] << endl;
-	cout << "3) Change my informations              "<< endl;
+	cout << "3) Change my informations              " << endl;
 	cout << "4) Rating  " << endl;
 	cout << "5) exit account" << endl << endl;
 
 	cout << "your choice is : ";
 	cin >> login_choice;
 
-	
+	while (login_choice < 1 || login_choice >5)
+	{
+		cout << "sorry choice in range from 1 to 5" << endl;
+		cout << "your choice is: ";
+		cin >> login_choice;
+	}
+
 
 	if (login_choice == 1)
 	{
 		add_sport();
 	}
-
+	
 	if (login_choice == 2)
 	{
 		my_sport();
 	}
-
+	
 	if (login_choice == 3)
 	{
 		change_my_information();
@@ -292,8 +311,6 @@ void data_project::login_page()
 	{
 		main_page();
 	}
-
-	
 }
 
 void data_project::add_sport()
@@ -315,18 +332,20 @@ void data_project::add_sport()
 	cout << endl;
 	cout << "your choice is : ";
 	cin >> add_choice;
-	
+
 	while (add_choice < 1 || add_choice >5)
 	{
 		cout << "sorry choice in range from 1 to 5" << endl;
 		cout << "your choice is: ";
 		cin >> add_choice;
 	}
+
 	if (add_choice == 1)
-	{
+	{	
+		
 		cout << "Write how many kilometers you walked" << endl;
 		cin >> walking;
-		all_walking.push_back(walking);
+		user[confirm].all_walking.push_back(walking);
 		add_sport();
 	}
 
@@ -334,7 +353,7 @@ void data_project::add_sport()
 	{
 		cout << "Write how many kilometers you running" << endl;
 		cin >> running;
-		all_running.push_back(running);
+		user[confirm].all_running.push_back(running);
 		add_sport();
 	}
 
@@ -342,7 +361,7 @@ void data_project::add_sport()
 	{
 		cout << "Write how many kilometers you bicycling" << endl;
 		cin >> bicycling;
-		all_bicycling.push_back(bicycling);
+		user[confirm].all_bicycling.push_back(bicycling);
 		add_sport();
 	}
 
@@ -350,10 +369,10 @@ void data_project::add_sport()
 	{
 		cout << "Write down how many times you had the push-up exercise" << endl;
 		cin >> pushup;
-		all_push_up.push_back(pushup);
+		user[confirm].all_bicycling.push_back(pushup);
 		add_sport();
 	}
-	
+
 	if (add_choice == 5)
 	{
 		login_page();
@@ -362,7 +381,7 @@ void data_project::add_sport()
 }
 
 void data_project::my_sport()
-{	
+{
 	int my_choice = -1;
 	cout << "please make a choice : " << endl << endl;
 	cout << "1) last day " << endl;
@@ -380,33 +399,38 @@ void data_project::my_sport()
 		cout << "your choice is: ";
 		cin >> my_choice;
 	}
-	
+
 	if (my_choice == 1)
 	{
-		if (all_walking.size()  <1)
-			cout << "You walked : " << all_walking[all_walking.size() - 1] << " KM" << endl;
-		else
+		if (user[confirm].all_walking.size() == 0)
+		{
 			cout << "You never walked" << endl;
-		
-		if (all_running.size() <1)
-			cout << "You run : " << all_running[all_running.size() - 1] << " KM" << endl;
+		}
 		else
+		{
+			cout << "You walked : " << user[confirm].all_walking[user[confirm].all_walking.size() - 1] << endl;
+		}
+
+		if (user[confirm].all_running.size() == 0)
 			cout << "you never ran" << endl;
-		if (all_bicycling.size() < 1)
-			cout << "You bicycled : " << all_bicycling[all_bicycling.size() - 1] << " KM " << endl;
+
+		else
+			cout << "You run : " << user[confirm].all_running[user[confirm].all_running.size() - 1] << endl;
+
+		if (user[confirm].all_bicycling.size() == 0)
+			cout << "You never drive a bike" << endl;
 
 		else 
-			cout << "You never drive a bike" << endl;
-		
-		if (all_push_up.size()<1 )
-			cout << "You did push-ups : " << all_push_up[all_push_up.size() - 1] << " time" << endl;
+			cout << "You bicycled : " << user[confirm].all_bicycling[user[confirm].all_bicycling.size() - 1] << endl;
 
-		else
+		if (user[confirm].all_push_up.size() == 0)
 			cout << "You never did push-ups" << endl;
+
+		else 
+			cout << "You did push-ups : " << user[confirm].all_push_up[user[confirm].all_push_up.size() - 1] << endl;
 
 		my_sport();
 	}
-
 
 	if (my_choice == 2)
 	{
@@ -415,50 +439,53 @@ void data_project::my_sport()
 		long long my_b = 0;
 		long long my_push = 0;
 
-		if (all_walking.size() < 7)
+		if (user[confirm].all_walking.size() < 7)
 			cout << "You did not complete the week in walking" << endl;
+
 		else
 		{
-			for (int i = all_walking.size() - 1; i > all_walking.size() - 8; i--)
+			for (int i = user[confirm].all_walking.size() - 1; i > user[confirm].all_walking.size() - 8; i--)
 			{
-				my_walking += all_walking[i];
+				my_walking += user[confirm].all_walking[i];
 			}
 			cout << "You walked : " << my_walking << endl;
-
 		}
-		if (all_running.size() < 7)
+
+		if (user[confirm].all_running.size() < 7)
 			cout << "You did not complete the week in running" << endl;
+
 		else
 		{
-			for (int i = all_running.size() - 1; i > all_running.size() - 8; i--)
+			for (int i = user[confirm].all_running.size() - 1; i > user[confirm].all_running.size() - 8; i--)
 			{
-				my_running += all_running[i];
+				my_running += user[confirm].all_running[i];
 			}
-			cout << "You run : " << my_running << endl;
+			cout << "You walked : " << my_running << endl;
 		}
 
-		if (all_bicycling.size() < 7)
+		if (user[confirm].all_bicycling.size() < 7)
 			cout << "You did not complete the week in bicycling" << endl;
+
 		else
 		{
-			for (int i = all_bicycling.size() - 1; i > all_bicycling.size() - 8; i--)
+			for (int i = user[confirm].all_bicycling.size() - 1; i > user[confirm].all_bicycling.size() - 8; i--)
 			{
-				my_b += all_bicycling[i];
+				my_b += user[confirm].all_bicycling[i];
 			}
-			cout << "You bicycled : " << my_b << endl;
+			cout << "You walked : " << my_b << endl;
 		}
 
-		if (all_push_up.size() < 7)
+		if (user[confirm].all_push_up.size() < 7)
 			cout << "You did not complete the week in push_up exercises" << endl;
+
 		else
 		{
-			for (int i = all_push_up.size() - 1; i > all_push_up.size() - 8; i--)
+			for (int i = user[confirm].all_push_up.size() - 1; i > user[confirm].all_push_up.size() - 8; i--)
 			{
-				my_push += all_push_up[i];
+				my_push += user[confirm].all_push_up[i];
 			}
-			cout << "you did push ups : " << my_push << endl;
+			cout << "You walked : " << my_push << endl;
 		}
-
 		my_sport();
 	}
 
@@ -469,58 +496,58 @@ void data_project::my_sport()
 		long long my_b = 0;
 		long long my_push = 0;
 
-
-		if (all_walking.size() < 30)
+		if (user[confirm].all_walking.size() < 30)
 		{
 			cout << "You did not complete the month in walking" << endl;
-
 		}
+		
 		else
 		{
-
-			for (int i = all_walking.size() - 1; i > all_walking.size() - 31; i--)
+			for (int i = user[confirm].all_walking.size() - 1; i > user[confirm].all_walking.size() - 31; i--)
 			{
-				my_walking += all_walking[i];
+				my_walking += user[confirm].all_walking[i];
 			}
-
-			cout << "You walked : " << my_walking << endl;
+			cout << "You walked : " <<my_walking << endl;
 		}
 
-		if (all_running.size()<30)
+		if (user[confirm].all_running.size() < 30)
 		{
 			cout << "You did not complete the month in running" << endl;
 		}
-		else
-		{
-			for (int i = all_running.size() - 1; i > all_running.size() - 31; i--)
-			{
-				my_running += all_running[i];
-			}
-			cout << "You run : " << my_running << endl;
-		}
-
-
-		if (all_bicycling.size() < 30)
-			cout << "You did not complete the month in running" << endl;
 
 		else
 		{
-			for (int i = all_bicycling.size() - 1; i > all_bicycling.size() - 31; i--)
+			for (int i = user[confirm].all_running.size() - 1; i > user[confirm].all_running.size() - 31; i--)
 			{
-				my_b += all_bicycling[i];
+				my_running += user[confirm].all_running[i];
 			}
-			cout << "You bicycled : " << my_b << endl;
+			cout << "You run : " <<my_running << endl;
 		}
 
-		if (all_push_up.size() < 30)
+		if (user[confirm].all_bicycling.size() < 30)
+		{
+			cout << "You did not complete the month in bicycling" << endl;
+		}
+
+		else
+		{
+			for (int i = user[confirm].all_bicycling.size() - 1; i > user[confirm].all_bicycling.size() - 31; i--)
+			{
+				my_b += user[confirm].all_bicycling[i];
+			}
+			cout << "You bicycled : " <<my_b << endl;
+		}
+		if (user[confirm].all_push_up.size() < 30)
 			cout << "You did not complete the month in push_up exercises" << endl;
+
 		else
 		{
-			for (int i = all_push_up.size() - 1; i > all_push_up.size() - 31; i--)
+			for (int i = user[confirm].all_push_up.size() - 1; i > user[confirm].all_push_up.size() - 31; i--)
 			{
-				my_push += all_push_up[i];
+				my_push += user[confirm].all_push_up[i];
 			}
-			cout << "you did push ups : " << my_push << endl;
+			cout << "you did push ups : " <<my_push << endl;
+
 		}
 		my_sport();
 	}
@@ -532,62 +559,58 @@ void data_project::my_sport()
 		long long my_b = 0;
 		long long my_push = 0;
 
-		if (all_walking.size() < 365)
+		if (user[confirm].all_walking.size() < 365)
 		{
 			cout << "You did not complete the year in walking" << endl;
-
 		}
 
 		else
 		{
-			for (int i = all_walking.size() - 1; i > all_walking.size() - 365; i--)
+			for (int i = user[confirm].all_walking.size() - 1; i > user[confirm].all_walking.size() - 366; i--)
 			{
-				my_walking += all_walking[i];
+				my_walking += user[confirm].all_walking[i];
 			}
-
 			cout << "You walked : " << my_walking << endl;
-
 		}
 
-		if (all_running.size() < 365)
+		if (user[confirm].all_running.size() < 365)
 		{
-			cout << "You did not complete the year in running" << endl;
+			cout << "You did not complete the month in running" << endl;
 		}
 
 		else
 		{
-			for (int i = all_running.size() - 1; i > all_running.size() - 365; i--)
+			for (int i = user[confirm].all_running.size() - 1; i > user[confirm].all_running.size() - 366; i--)
 			{
-				my_running += all_running[i];
+				my_running += user[confirm].all_running[i];
 			}
 			cout << "You run : " << my_running << endl;
 		}
 
-		if (all_bicycling.size() < 365)
+		if (user[confirm].all_bicycling.size() < 365)
 		{
-			cout << "You did not complete the year in bicycling" << endl;
+			cout << "You did not complete the month in bicycling" << endl;
 		}
 
 		else
 		{
-			for (int i = all_bicycling.size() - 1; i > all_bicycling.size() - 365; i--)
+			for (int i = user[confirm].all_bicycling.size() - 1; i > user[confirm].all_bicycling.size() - 366; i--)
 			{
-				my_b += all_bicycling[i];
+				my_b += user[confirm].all_bicycling[i];
 			}
 			cout << "You bicycled : " << my_b << endl;
 		}
+		if (user[confirm].all_push_up.size() < 365)
+			cout << "You did not complete the month in push_up exercises" << endl;
 
-		if (all_push_up.size() < 365)
-		{
-			cout << "You did not complete the year in push_up exercises" << endl;
-		}
 		else
 		{
-			for (int i = all_push_up.size() - 1; i > all_push_up.size() - 365; i--)
+			for (int i = user[confirm].all_push_up.size() - 1; i > user[confirm].all_push_up.size() - 366; i--)
 			{
-				my_push += all_push_up[i];
+				my_push += user[confirm].all_push_up[i];
 			}
 			cout << "you did push ups : " << my_push << endl;
+
 		}
 		
 		my_sport();
@@ -598,7 +621,6 @@ void data_project::my_sport()
 		login_page();
 
 	}
-
 }
 
 void data_project::change_my_information()
@@ -674,17 +696,17 @@ void data_project::change_my_information()
 
 void data_project::rating()
 {
-	bool check = false;
-	int rate = -1;
+	
 	if (!check)
 	{
 		cout << "Please, rate the application from five" << endl;
 		cin >> rate;
 		cout << "thank you" << endl;
 		cout << endl;
+		check = true;
 
 	}
-	else
+	if (check)
 	{
 		cout << "thank you for rating the application" << endl;
 		cout << "your rating is " << rate << endl;
