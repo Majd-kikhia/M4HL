@@ -52,7 +52,7 @@ struct data_project
 		 all_high.clear();
 		 all_wieght.clear();
 		 all_aim_wieght.clear();
-		 
+
 		 aim_wieght = 0;
 	}
 
@@ -114,12 +114,12 @@ void  data_project::sign_up()
 	float high = 0.0;
 	int wieght = 0;
 
-	
+
 
 	cout << "plesae wrtie your name " << endl;
 	cout << "you can use letters and dots" << endl;
 	cout << "your name is: ";
-	
+
 	cin >> name;
 	while (1)
 	{
@@ -130,7 +130,7 @@ void  data_project::sign_up()
 			cin >> name;
 		}
 		else
-			
+
 			break;
 	}
 
@@ -147,7 +147,7 @@ void  data_project::sign_up()
 			cout << "your password is: ";
 			cin >> password;
 		}
-		else 
+		else
 			break;
 	}
 
@@ -176,10 +176,10 @@ void  data_project::sign_up()
 	cout << endl;
 	cout << "Please write down the weight you aspire to : " << endl;
 	cin >> aim_wieght;
-	
+
 	cout << endl << endl ;
 	cout << "Your account has been successfully registered" << endl << endl;
-	
+
 	all_names.push_back(name);
 	all_passowrd.push_back(password);
 	all_high.push_back(high);
@@ -197,14 +197,13 @@ bool data_project::is_correct_name(string s)
 {
 	for (int i = 0 ; i < s.size() ; i++)
 	{
-		if (isalpha(s[i]) || s[i]=='.')
-			continue;
-		else
+		if ((!isalpha(s[i])) || (!s[i] == '.'))
 			return false;
-		return true;
+
+
 
 	}
-
+        return true;
 }
 
 bool data_project::is_correct_password(string s)
@@ -213,20 +212,19 @@ bool data_project::is_correct_password(string s)
 		return false;
 	for (int i = 0; i < s.size(); i++)
 	{
-		if (isalnum(s[i]) || s[i] == '.')
-			continue;
-		else
+		if ((!isalnum(s[i])) || (!s[i] == '.'))
 			return false;
-		return true;
 
 	}
+
+	return true;
 
 
 }
 
 void data_project::login()
 {
-	
+
 	cout << "please enter your name : ";
 	cin >> login_name;
 
@@ -248,7 +246,7 @@ void data_project::login()
 		else
 			break;
 	}
-	
+
 	while (1)
 	{
 		if (!is_correct_password_login(login_password))
@@ -260,7 +258,7 @@ void data_project::login()
 		else
 			break;
 	}
-	
+
 	login_page();
 
 
@@ -291,12 +289,12 @@ void data_project::login_page()
 	{
 		add_sport();
 	}
-	
+
 	if (login_choice == 2)
 	{
 		my_sport();
 	}
-	
+
 	if (login_choice == 3)
 	{
 		change_my_information();
@@ -341,8 +339,8 @@ void data_project::add_sport()
 	}
 
 	if (add_choice == 1)
-	{	
-		
+	{
+
 		cout << "Write how many kilometers you walked" << endl;
 		cin >> walking;
 		user[confirm].all_walking.push_back(walking);
@@ -420,13 +418,13 @@ void data_project::my_sport()
 		if (user[confirm].all_bicycling.size() == 0)
 			cout << "You never drive a bike" << endl;
 
-		else 
+		else
 			cout << "You bicycled : " << user[confirm].all_bicycling[user[confirm].all_bicycling.size() - 1] << endl;
 
 		if (user[confirm].all_push_up.size() == 0)
 			cout << "You never did push-ups" << endl;
 
-		else 
+		else
 			cout << "You did push-ups : " << user[confirm].all_push_up[user[confirm].all_push_up.size() - 1] << endl;
 
 		my_sport();
@@ -500,7 +498,7 @@ void data_project::my_sport()
 		{
 			cout << "You did not complete the month in walking" << endl;
 		}
-		
+
 		else
 		{
 			for (int i = user[confirm].all_walking.size() - 1; i > user[confirm].all_walking.size() - 31; i--)
@@ -612,7 +610,7 @@ void data_project::my_sport()
 			cout << "you did push ups : " << my_push << endl;
 
 		}
-		
+
 		my_sport();
 	}
 
@@ -624,7 +622,7 @@ void data_project::my_sport()
 }
 
 void data_project::change_my_information()
-{	
+{
 	int change_choice = -1;
 	string new_name = "";
 	string new_password = "";
@@ -691,12 +689,12 @@ void data_project::change_my_information()
 
 	if (change_choice == 6)
 		login_page();
-	
+
 }
 
 void data_project::rating()
 {
-	
+
 	if (!check)
 	{
 		cout << "Please, rate the application from five" << endl;
@@ -749,5 +747,5 @@ bool data_project::is_correct_password_login(string s)
 }
 int main()
 {
-	user.main_page();	
+	user.main_page();
 }
